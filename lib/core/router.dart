@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:khaltabita/user/presentation/screen/book_description.dart';
+import 'package:khaltabita/user/presentation/screen/home.dart';
 
-class Router {
-  static const String splashScreen = "/";
-  static const String homePage = "/home";
-  static const String login = "/login";
-  static const String register = "/register";
-  static const String onBoarding = "/onBoarding";
+import '../user/presentation/screen/books_category.dart';
+
+class Routers {
+  //static const String splashScreen = "/";
+  static const String booksCategory = "/booksCategory";
+  static const String homePage = "/";
+  //static const String login = "/login";
+  //static const String register = "/register";
+  //static const String onBoarding = "/onBoarding";
   static const String bookDescription = "/bookDescription";
-  static const String bookDetection = "/bookDetection";
+  //static const String bookDetection = "/bookDetection";
 }
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
-    switch (routeSettings) {
-      case Router.splashScreen:
-        return unDefinedRoute();
+    switch (routeSettings.name) {
+      case Routers.homePage:
+        return MaterialPageRoute(builder: (context) => const HomePage());
+      case Routers.bookDescription:
+        return MaterialPageRoute(builder: (context) => const BookDescription());
+      case Routers.booksCategory:
+        return MaterialPageRoute(
+            builder: (context) => const BookCategoryPage());
       default:
         return unDefinedRoute();
     }
