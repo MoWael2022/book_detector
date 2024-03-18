@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:khaltabita/user/presentation/screen/book_description.dart';
 import 'package:khaltabita/user/presentation/screen/home.dart';
+import 'package:khaltabita/user/presentation/screen/login.dart';
 
 import '../user/presentation/screen/books_category.dart';
+import '../user/presentation/screen/register.dart';
 
 class Routers {
   //static const String splashScreen = "/";
   static const String booksCategory = "/booksCategory";
   static const String homePage = "/";
-  //static const String login = "/login";
-  //static const String register = "/register";
+  static const String login = "/login";
+  static const String register = "/register";
+
   //static const String onBoarding = "/onBoarding";
   static const String bookDescription = "/bookDescription";
-  //static const String bookDetection = "/bookDetection";
+//static const String bookDetection = "/bookDetection";
 }
 
 class RouteGenerator {
@@ -25,6 +28,10 @@ class RouteGenerator {
       case Routers.booksCategory:
         return MaterialPageRoute(
             builder: (context) => const BookCategoryPage());
+      case Routers.login:
+        return MaterialPageRoute(builder: (context) => const Login());
+      case Routers.register:
+        return MaterialPageRoute(builder: (context) => const SignUp());
       default:
         return unDefinedRoute();
     }

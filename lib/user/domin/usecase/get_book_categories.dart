@@ -12,7 +12,7 @@ class GetBookCategoriesUseCase extends BaseUserUseCase<NoParameter, List<Categor
   @override
   Future<Either<Failure, List<Categories>>> call(NoParameter input) async {
     final result = await _baseRepository.getCategoriesRepository();
-    print("from useCase ${result.length()}");
+    //print("from useCase ${result.length()}");
     return result ;
   }
 }

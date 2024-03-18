@@ -34,3 +34,17 @@ class ErrorLoadBookFromCategoryState extends AppState {
 
   ErrorLoadBookFromCategoryState({required this.failure});
 }
+
+class LoadingBookState extends AppState {}
+
+class LoadedBookState extends AppState {
+  Book data;
+
+  LoadedBookState({required this.data});
+}
+
+class ErrorLoadBookState extends AppState {
+  Failure failure;
+
+  ErrorLoadBookState({required this.failure});
+}

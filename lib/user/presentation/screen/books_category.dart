@@ -21,13 +21,18 @@ class _BookCategoryPageState extends State<BookCategoryPage> {
     super.initState();
     BlocProvider.of<AppCubit>(context)
         .fetchBookInCategory(BlocProvider.of<AppCubit>(context).catName);
+
   }
 
   @override
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvoked: (didPop) async {
-        if (didPop) BlocProvider.of<AppCubit>(context).fetchData();
+        if (didPop) {
+          BlocProvider.of<AppCubit>(context).fetchData();
+          BlocProvider.of<AppCubit>(context)
+              .fetchSpecificBook(BlocProvider.of<AppCubit>(context).bookName);
+        }
       },
       child: CustomPage(
           page: ListView(
@@ -42,8 +47,19 @@ class _BookCategoryPageState extends State<BookCategoryPage> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (state is LoadedBookFromCategoryState) {
-                  print(state.data[0].category);
+                  // for(int i =0 ; i<5;i++){
+                  //   if(state.data[i]!=null){
+                  //     BlocProvider.of<AppCubit>(context).saveBook.add(state.data[i]);
+                  //   }else {
+                  //     break;
+                  //   }
+                  //
+                  // }
+
+
+                  // print(state.data[0].category);
                   return Wrap(
+
                     children: state.data.map((category) {
                       return BookComponent(
                         bookName: category.title,

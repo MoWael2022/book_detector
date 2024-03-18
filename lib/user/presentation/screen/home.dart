@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     final result = instance<GetAllBookInOneCategoryUsecase>();
     final data =
         await result.call(CategoryNameEntities(categoryName: "Actors"));
-    print(data.fold((l) => {}, (r) => {r[0].id, r[0].description}));
+   // print(data.fold((l) => {}, (r) => {r[0].id, r[0].description}));
   }
 
   @override
@@ -51,9 +51,10 @@ class _HomePageState extends State<HomePage> {
                       child: CircularProgressIndicator(),
                     );
                   } else if (state is LoadedCategoryDataState) {
-                    print(state.data[0].categoryName);
+
+                    //print(state.data[0].categoryName);
                     return Wrap(
-                      children: BlocProvider.of<AppCubit>(context).saveCategory.map((category) {
+                      children: state.data.map((category) {
                         return CategoryComponent(
                           bookName: category.categoryName,
                           rate: "4.5",

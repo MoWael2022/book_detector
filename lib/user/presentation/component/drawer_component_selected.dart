@@ -21,7 +21,7 @@ class BookImage extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           image:
-          DecorationImage(image: AssetImage(imagePath), fit: BoxFit.fill),
+          DecorationImage(image: NetworkImage(imagePath), fit: BoxFit.fill),
         ),
         child: Container(
           padding: EdgeInsets.only(bottom: 3.h),

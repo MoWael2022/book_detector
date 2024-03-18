@@ -42,6 +42,7 @@ dependencies:
   dartz: ^0.10.1
   dio: ^5.4.1
   get_it: ^7.6.7
+
   http: ^1.2.0
 
 dev_dependencies:
@@ -70,6 +71,7 @@ flutter:
   assets:
     - assets/test.png
     - assets/book test.png
+    - assets/images/auth_image/books.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

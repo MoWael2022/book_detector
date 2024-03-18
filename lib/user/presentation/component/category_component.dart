@@ -26,6 +26,7 @@ class CategoryComponent extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(context, Routers.booksCategory);
           BlocProvider.of<AppCubit>(context).catName.categoryName = bookName;
+          BlocProvider.of<AppCubit>(context).getSimilarbook();
         },
         child: Container(
           height: 26.h,

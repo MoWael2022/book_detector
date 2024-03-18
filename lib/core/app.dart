@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khaltabita/core/router.dart';
 import 'package:khaltabita/user/presentation/controller/app_cubit.dart';
+import 'package:khaltabita/user/presentation/controller/auth_cubit/auth_cubit.dart';
 import 'package:khaltabita/user/presentation/screen/book_description.dart';
 import 'package:sizer/sizer.dart';
 
@@ -18,12 +19,20 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
-      return BlocProvider(
-        create: (context) => AppCubit(),
-        child:const MaterialApp(
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AppCubit(),
+          ),
+          BlocProvider(
+            create: (context) => AuthCubit(),
+          ),
+        ],
+        child: const MaterialApp(
           onGenerateRoute: RouteGenerator.getRoute,
           initialRoute: Routers.homePage,
           debugShowCheckedModeBanner: false,
+
           //home: HomePage(),
         ),
       );
