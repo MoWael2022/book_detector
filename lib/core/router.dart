@@ -4,6 +4,7 @@ import 'package:khaltabita/user/presentation/screen/home.dart';
 import 'package:khaltabita/user/presentation/screen/login.dart';
 
 import '../user/presentation/screen/books_category.dart';
+import '../user/presentation/screen/profile.dart';
 import '../user/presentation/screen/register.dart';
 
 class Routers {
@@ -12,6 +13,7 @@ class Routers {
   static const String homePage = "/";
   static const String login = "/login";
   static const String register = "/register";
+  static const String profile = "/Profile";
 
   //static const String onBoarding = "/onBoarding";
   static const String bookDescription = "/bookDescription";
@@ -32,6 +34,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const Login());
       case Routers.register:
         return MaterialPageRoute(builder: (context) => const SignUp());
+      case Routers.profile:
+        return MaterialPageRoute(builder: (context) => const Profile());
       default:
         return unDefinedRoute();
     }

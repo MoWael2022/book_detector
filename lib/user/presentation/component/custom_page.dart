@@ -21,8 +21,8 @@ class CustomPage extends StatelessWidget {
         backgroundColor: ColorManager.appbarColor,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(15),
-                bottomRight: Radius.circular(15))),
+                bottomLeft: Radius.circular(150),
+                bottomRight: Radius.circular(150))),
         actions: [
           Builder(
             builder: (context) {

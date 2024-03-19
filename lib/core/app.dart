@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
         ],
         child: const MaterialApp(
           onGenerateRoute: RouteGenerator.getRoute,
-          initialRoute: Routers.homePage,
+          initialRoute: Routers.profile,
           debugShowCheckedModeBanner: false,
 
           //home: HomePage(),
