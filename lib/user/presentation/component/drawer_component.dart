@@ -8,20 +8,21 @@ import 'package:khaltabita/user/presentation/controller/app_state.dart';
 import 'package:sizer/sizer.dart';
 
 class DrawerComponent extends StatelessWidget {
-  DrawerComponent(
-      {super.key,
-      required this.pageName,
-      required this.iconData,
-      required this.iconSize,
-      required this.pageChange,
-      required this.nameSize});
+  DrawerComponent({
+    super.key,
+    required this.pageName,
+    required this.iconData,
+    required this.page,
+  });
 
   String pageName;
   IconData iconData;
-  double iconSize;
+  String page;
 
-  double nameSize;
-  DrawerComponentName pageChange;
+  //double iconSize;
+
+  //double nameSize;
+  //DrawerComponentName pageChange;
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +35,17 @@ class DrawerComponent extends StatelessWidget {
             ),
             ListTile(
               onTap: () {
-
+                Navigator.pop(context);
+                Navigator.of(context).pushNamed(page);
               },
               leading: Icon(
                 iconData,
-                size: iconSize,
+                size: 10.w,
                 color: ColorManager.white,
               ),
               title: Text(
                 pageName,
-                style: TextStyle(color: ColorManager.white, fontSize: nameSize),
+                style: TextStyle(color: ColorManager.white,fontSize: 7.w),
               ),
             ),
             SizedBox(

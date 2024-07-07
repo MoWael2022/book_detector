@@ -48,3 +48,16 @@ class ErrorLoadBookState extends AppState {
 
   ErrorLoadBookState({required this.failure});
 }
+
+class ChangeLanguage extends AppState{
+  String languageValue;
+  ChangeLanguage(this.languageValue);
+}
+
+class TranslationStateLoaded extends AppState{
+  String translatedData;
+  TranslationStateLoaded({required this.translatedData});
+
+}
+class TranslationStateLoading extends AppState{}
+class TranslationStateError extends AppState{}

@@ -1,7 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khaltabita/user/presentation/screen/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../core/global_resources/color_manager.dart';
+import '../controller/auth_cubit/auth_cubit.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -11,6 +16,40 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  List<Future<String>>? data ;
+
+
+  Future<String> getFirstName()async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("firstName") as String;
+  }
+  Future<String> getLastName()async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("lastName") as String;
+  }
+  Future<String> getEmail()async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.getString("email") as String);
+    return prefs.getString("email") as String;
+  }
+  // Future<String> getName()async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString("firstName") as String;
+  // }
+
+
+  @override
+  void initState() {
+    String fName,email,lName;
+    print(BlocProvider.of<AuthCubit>(context).isAdmin);
+
+    getFirstName().then((value) => fName = value);
+    getEmail().then((value) => email = value);
+    getLastName().then((value) => lName = value);
+    data=[getFirstName(),getLastName(),getEmail()];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,27 +104,65 @@ class _ProfileState extends State<Profile> {
                   color: const Color.fromARGB(255, 231, 192, 168),
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                child:const Column(
-                  children: [
+                child: FutureBuilder<List<String?>>(
+                  future: Future.wait(data!),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Row(
+                        children: [
+                          const CircleAvatar(
+                            backgroundImage: AssetImage("assets/test.png"),
+                          ),
+                          SizedBox(
+                            width: 4.w,
+                          ),
+                          Text(
+                            "Loading...",
+                            style: TextStyle(color: ColorManager.white, fontSize: 4.w),
+                          ),
+                        ],
+                      );
+                    }else if (snapshot.hasError) {
+                      return Row(
+                        children: [
+                          const CircleAvatar(
+                            backgroundImage: AssetImage("assets/test.png"),
+                          ),
+                          SizedBox(
+                            width: 4.w,
+                          ),
+                          Text(
+                            "Error",
+                            style: TextStyle(color: ColorManager.white, fontSize: 4.w),
+                          ),
+                        ],
+                      );
+                    }else{
+                      return Column(
+                        children: [
 
-                    const ProfileInfoRow(
-                      label: 'Name',
-                      value: 'Heba Raslan',
-                    ),
-                    const SizedBox(height: 20),
-                    const ProfileInfoRow(
-                      label: 'Email',
-                      value: 'hebaraslan@gmail.com',
-                    ),
-                    const SizedBox(height: 20),
-                    const ProfileInfoRow(
-                      label: 'Phone Number',
-                      value: '122334454',
-                    ),
-                    const SizedBox(height: 20),
+                          ProfileInfoRow(
+                            label: 'Name',
+                            value: "${snapshot.data![0]!} ${snapshot.data![1]!}",
+                          ),
+                          const SizedBox(height: 20),
+                          ProfileInfoRow(
+                            label: 'Email',
+                            value: snapshot.data![2]!,
+                          ),
+                          const SizedBox(height: 20),
+                          const ProfileInfoRow(
+                            label: 'Phone Number',
+                            value: '122334454',
+                          ),
+                          const SizedBox(height: 20),
 
 
-                  ],
+                        ],
+                      );
+                    }
+
+                  }
                 ),
               ),
               Positioned(
@@ -96,10 +173,7 @@ class _ProfileState extends State<Profile> {
                 child: ClipOval(
                   child: FloatingActionButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const Login()),
-                      );
+                     
                     },
                     backgroundColor: const Color(0xFFB97F5A),
                     child: const Icon(

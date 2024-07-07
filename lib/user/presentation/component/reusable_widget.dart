@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 class ReusableTextField extends StatefulWidget {
   final String hintText;
-  final bool obscureText;
+  bool obscureText;
   final TextEditingController textEditingController;
 
-  const ReusableTextField({
+
+   ReusableTextField({
     super.key,
     required this.hintText,
     required this.textEditingController,
@@ -17,7 +18,8 @@ class ReusableTextField extends StatefulWidget {
 }
 
 class _ReusableTextFieldState extends State<ReusableTextField> {
-  bool _obscureText = true;
+  //bool _obscureText = false;
+  //bool isNotPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class _ReusableTextFieldState extends State<ReusableTextField> {
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       child: TextFormField(
         controller: widget.textEditingController,
-        obscureText: _obscureText,
+        obscureText: widget.obscureText,
         decoration: InputDecoration(
           hintText: widget.hintText,
           hintStyle: const TextStyle(color: Colors.white),
@@ -38,10 +40,10 @@ class _ReusableTextFieldState extends State<ReusableTextField> {
           suffixIcon: widget.obscureText
               ? IconButton(
                   icon: Icon(
-                      _obscureText ? Icons.visibility_off : Icons.visibility),
+                      widget.obscureText ? Icons.visibility_off : Icons.visibility),
                   onPressed: () {
                     setState(() {
-                      _obscureText = !_obscureText;
+                      widget.obscureText = !widget.obscureText;
                     });
                   },
                   color: Colors.white,

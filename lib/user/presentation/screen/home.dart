@@ -1,38 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khaltabita/core/global_resources/color_manager.dart';
-import 'package:khaltabita/core/service_locator.dart';
-import 'package:khaltabita/user/domin/entites/category_name_entites.dart';
-import 'package:khaltabita/user/domin/usecase/get_all_book_in_one_category_usecase.dart';
-
-import 'package:khaltabita/user/presentation/component/category_component.dart';
+import 'package:khaltabita/core/global_resources/images_path.dart';
+import 'package:khaltabita/core/global_resources/string_manager.dart';
 import 'package:khaltabita/user/presentation/component/custom_page.dart';
-import 'package:khaltabita/user/presentation/component/custom_text_form_field.dart';
+import 'package:khaltabita/user/presentation/component/scroll_component.dart';
+import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:sizer/sizer.dart';
 
-import '../controller/app_cubit.dart';
-import '../controller/app_state.dart';
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HamePage extends StatefulWidget {
+  const HamePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HamePage> createState() => _HamePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  getData() async {
-    final result = instance<GetAllBookInOneCategoryUsecase>();
-    final data =
-        await result.call(CategoryNameEntities(categoryName: "Actors"));
-   // print(data.fold((l) => {}, (r) => {r[0].id, r[0].description}));
-  }
+class _HamePageState extends State<HamePage> {
+  List<Widget> dataScrollComponent = [
+    ScrollComponent(
+        textData: StringManager.translateDescription,
+        image: ImagePathManager.translateIcon),
+    ScrollComponent(
+        textData: StringManager.chatBotDescription,
+        image: ImagePathManager.robotIcon),
+    ScrollComponent(
+        textData: StringManager.cameraDescription,
+        image: ImagePathManager.cameraIcon),
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    getData();
-    //BlocProvider.of<AppCubit>(context).fetchData();
+  Widget _listBuilder(BuildContext context, int index) {
+    if (index == dataScrollComponent.length) {
+      return const Center(child: CircularProgressIndicator());
+    } else {
+      return dataScrollComponent[index];
+    }
   }
 
   @override
@@ -40,37 +40,76 @@ class _HomePageState extends State<HomePage> {
     return CustomPage(
       page: ListView(
         children: [
-          const CustomTextFormField(),
+          SizedBox(
+            height: 3.h,
+          ),
           Padding(
-            padding: EdgeInsets.all(5.w),
-            child: Center(
-              child: BlocBuilder<AppCubit, AppState>(
-                builder: (context, state) {
-                  if (state is LoadingCategoryDataState) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is LoadedCategoryDataState) {
-
-                    //print(state.data[0].categoryName);
-                    return Wrap(
-                      children: state.data.map((category) {
-                        return CategoryComponent(
-                          bookName: category.categoryName,
-                          rate: "4.5",
-                          imagePath: "assets/book test.png",
-                        );
-                      }).toList(),
-                    );
-                  } else if (state is ErrorCategoryDataState) {
-                    return Text(state.failure.messageError);
-                  } else {
-                    return Text("Bayz");
-                  }
-                },
+            padding: EdgeInsets.all(5.0.w),
+            child: Text(
+              textAlign: TextAlign.center,
+              "Discover,Capture, and Explore Books ",
+              style: TextStyle(
+                  color: ColorManager.titleInHome,
+                  fontSize: 9.w,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(5.0.w),
+            child: Container(
+              decoration: BoxDecoration(
+                border: const Border(
+                  left: BorderSide(color: ColorManager.titleInHome, width: 2),
+                  top: BorderSide(color: ColorManager.titleInHome, width: 2),
+                  right: BorderSide(color: ColorManager.titleInHome, width: 2),
+                  bottom: BorderSide(color: ColorManager.titleInHome, width: 2),
+                ),
+                borderRadius: BorderRadius.circular(20),
+                color: ColorManager.containerHome,
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(4.0.w),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  "\" Welcome to Book Detector "
+                  "Explore Books with Ease! Our app makes "
+                  "discovering new books effortless and enjoyable. "
+                  "Join us today and start your visual literary journey!\"",
+                  style: TextStyle(
+                    fontSize: 5.5.w,
+                    color: ColorManager.titleInHome,
+                  ),
+                ),
               ),
             ),
-          )
+          ),
+          // Expanded(
+          //   child: LayoutBuilder(
+          //     builder: (context,constraint) {
+          //       return SizedBox(
+          //         height: 30.h,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 30.h,
+                width: 90.w,
+                child: ScrollSnapList(
+                  itemBuilder: _listBuilder,
+                  itemCount: dataScrollComponent.length,
+                  itemSize: 90.w,
+                  dynamicItemSize: true,
+                  onItemFocus: (index) {},
+                  onReachEnd: () {},
+                ),
+              ),
+            ],
+          ),
+          //       );
+          //     }
+          //   ),
+          // )
+          //Image.asset(ImagePathManager.robotIcon)
         ],
       ),
     );

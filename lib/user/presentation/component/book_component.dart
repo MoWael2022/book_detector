@@ -32,7 +32,13 @@ class BookComponent extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
-                image: NetworkImage(imagePath), fit: BoxFit.fill),
+              image: NetworkImage(imagePath),
+              fit: BoxFit.fill,
+              onError: (error, stackTrace) {
+                // Handle image loading error
+                print('Failed to load image: $error');
+              },
+            ),
           ),
           child: Container(
             padding: EdgeInsets.only(bottom: 3.h),

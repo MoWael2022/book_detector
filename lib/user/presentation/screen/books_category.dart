@@ -21,7 +21,6 @@ class _BookCategoryPageState extends State<BookCategoryPage> {
     super.initState();
     BlocProvider.of<AppCubit>(context)
         .fetchBookInCategory(BlocProvider.of<AppCubit>(context).catName);
-
   }
 
   @override
@@ -47,6 +46,9 @@ class _BookCategoryPageState extends State<BookCategoryPage> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (state is LoadedBookFromCategoryState) {
+                  BlocProvider.of<AppCubit>(context)
+                      .booksCategories
+                      =state.data;
                   // for(int i =0 ; i<5;i++){
                   //   if(state.data[i]!=null){
                   //     BlocProvider.of<AppCubit>(context).saveBook.add(state.data[i]);
@@ -56,11 +58,10 @@ class _BookCategoryPageState extends State<BookCategoryPage> {
                   //
                   // }
 
-
                   // print(state.data[0].category);
                   return Wrap(
-
                     children: state.data.map((category) {
+
                       return BookComponent(
                         bookName: category.title,
                         rate: category.averageRating,
@@ -71,7 +72,9 @@ class _BookCategoryPageState extends State<BookCategoryPage> {
                 } else if (state is ErrorLoadBookFromCategoryState) {
                   return Text(state.failure.messageError);
                 } else {
-                  return Text("Bayz");
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
               }),
             ),
