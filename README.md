@@ -1,6 +1,7 @@
-# khaltabita
+# Book Detection App
 
-A new Flutter project.
+This mobile application, developed using Flutter with a .NET backend, utilizes deep learning models to detect book covers,extract text, and search within a database. Additionally, itincludes a chatbot and a translation feature for books.
+
 
 ## Getting Started
 
