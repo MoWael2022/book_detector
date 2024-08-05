@@ -22,7 +22,7 @@ class CustomTextFormField extends StatelessWidget {
           onTap: (){
             showSearch(context: context, delegate: CustomSearch());
             BlocProvider.of<AppCubit>(context).fetchData();
-            print( BlocProvider.of<AppCubit>(context).booksCategories.length);
+            //print( BlocProvider.of<AppCubit>(context).booksCategories.length);
           },
           decoration: InputDecoration(
             hoverColor: ColorManager.textFormFieldColr,

@@ -23,10 +23,12 @@ import 'package:get_it/get_it.dart';
 
 import '../../../core/error/category_exceptions.dart';
 import '../../../core/global_resources/constants.dart';
+import '../../../core/global_resources/functions.dart';
 import '../../../core/router.dart';
 import '../../data/model/categories_model.dart';
 import '../../data/model/language_translation_input_model.dart';
 import '../component/book_component.dart';
+import '../component/dialogs_component.dart';
 import '../component/drawer_component_selected.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -63,6 +65,13 @@ class _BookDescriptionState extends State<BookDescription> {
         },
         child: BlocConsumer<AppCubit, AppState>(
           listener: (context, state) {
+            if(state is ConnectivityLoading){
+              Dialogs.loadingAwesomeDialog(context);
+            }else if (state is ConnectivityFailure){
+              Dialogs.errorAwesomeDialog(context, state.message.toString());
+            }else if(state is ConnectivitySuccess){
+              Dialogs.successAwesomeDialog(context);
+            }
             if (state is TranslationStateError) {
               AwesomeDialog(
                 context: context,
@@ -76,9 +85,7 @@ class _BookDescriptionState extends State<BookDescription> {
           },
           builder: (context, state) {
             if (state is LoadingBookState) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return Functions.loadingLottie();
             } else if (state is LoadedBookState) {
               BlocProvider.of<AppCubit>(context).description =
                   state.data.description;

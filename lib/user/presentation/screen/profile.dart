@@ -6,6 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../core/global_resources/color_manager.dart';
+import '../component/dialogs_component.dart';
+import '../controller/app_cubit.dart';
+import '../controller/app_state.dart';
 import '../controller/auth_cubit/auth_cubit.dart';
 
 class Profile extends StatefulWidget {
@@ -52,138 +55,149 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(20.h),
-        child: AppBar(
-          flexibleSpace: Stack(
-            clipBehavior: Clip.none,
-            alignment: Alignment.bottomCenter,
-            children: [
+    return BlocListener<AppCubit,AppState>(
+      listener: (context , state) {
+        if(state is ConnectivityLoading){
+          Dialogs.loadingAwesomeDialog(context);
+        }else if (state is ConnectivityFailure){
+          Dialogs.errorAwesomeDialog(context, state.message.toString());
+        }else if(state is ConnectivitySuccess){
+          Dialogs.successAwesomeDialog(context);
+        }
+      },
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(20.h),
+          child: AppBar(
+            flexibleSpace: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.bottomCenter,
+              children: [
 
-              Container(
-                //height: 35.h,
-                decoration:const BoxDecoration(
-                  color: Color(0xFF964F24),
-                  borderRadius:  BorderRadius.only(
-                    bottomRight: Radius.circular(170),
-                    bottomLeft: Radius.circular(170),
+                Container(
+                  //height: 35.h,
+                  decoration:const BoxDecoration(
+                    color: Color(0xFF964F24),
+                    borderRadius:  BorderRadius.only(
+                      bottomRight: Radius.circular(170),
+                      bottomLeft: Radius.circular(170),
+                    ),
+
                   ),
-
                 ),
-              ),
-              Positioned(
-                top: 15.h,
-                child:const CircleAvatar(
-                  radius: 65,
-                  backgroundImage: AssetImage('assets/book test.png'),
+                Positioned(
+                  top: 15.h,
+                  child:const CircleAvatar(
+                    radius: 65,
+                    backgroundImage: AssetImage('assets/book test.png'),
 
-                )
-              ),
-              Center(
-                child:  Text(
-                  'Profile',
-                  style: TextStyle(color: Colors.white,fontSize: 7.w),
+                  )
                 ),
-              ),
-            ],
+                Center(
+                  child:  Text(
+                    'Profile',
+                    style: TextStyle(color: Colors.white,fontSize: 7.w),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-      body: Center(
-        child: Padding(
-          padding:  EdgeInsets.only(right: 10.w ,left: 10.w),
-          child: Stack(
-            children: [
-              Container(
-                height: 47.h,
-                padding: const EdgeInsets.all(35.0),
-                alignment: Alignment.bottomCenter,
-                //margin: const EdgeInsets.symmetric(vertical: 175.0, horizontal: 30.0),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 231, 192, 168),
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: FutureBuilder<List<String?>>(
-                  future: Future.wait(data!),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Row(
-                        children: [
-                          const CircleAvatar(
-                            backgroundImage: AssetImage("assets/test.png"),
-                          ),
-                          SizedBox(
-                            width: 4.w,
-                          ),
-                          Text(
-                            "Loading...",
-                            style: TextStyle(color: ColorManager.white, fontSize: 4.w),
-                          ),
-                        ],
-                      );
-                    }else if (snapshot.hasError) {
-                      return Row(
-                        children: [
-                          const CircleAvatar(
-                            backgroundImage: AssetImage("assets/test.png"),
-                          ),
-                          SizedBox(
-                            width: 4.w,
-                          ),
-                          Text(
-                            "Error",
-                            style: TextStyle(color: ColorManager.white, fontSize: 4.w),
-                          ),
-                        ],
-                      );
-                    }else{
-                      return Column(
-                        children: [
+        body: Center(
+          child: Padding(
+            padding:  EdgeInsets.only(right: 10.w ,left: 10.w),
+            child: Stack(
+              children: [
+                Container(
+                  height: 47.h,
+                  padding: const EdgeInsets.all(35.0),
+                  alignment: Alignment.bottomCenter,
+                  //margin: const EdgeInsets.symmetric(vertical: 175.0, horizontal: 30.0),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 231, 192, 168),
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: FutureBuilder<List<String?>>(
+                    future: Future.wait(data!),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Row(
+                          children: [
+                            const CircleAvatar(
+                              backgroundImage: AssetImage("assets/test.png"),
+                            ),
+                            SizedBox(
+                              width: 4.w,
+                            ),
+                            Text(
+                              "Loading...",
+                              style: TextStyle(color: ColorManager.white, fontSize: 4.w),
+                            ),
+                          ],
+                        );
+                      }else if (snapshot.hasError) {
+                        return Row(
+                          children: [
+                            const CircleAvatar(
+                              backgroundImage: AssetImage("assets/test.png"),
+                            ),
+                            SizedBox(
+                              width: 4.w,
+                            ),
+                            Text(
+                              "Error",
+                              style: TextStyle(color: ColorManager.white, fontSize: 4.w),
+                            ),
+                          ],
+                        );
+                      }else{
+                        return Column(
+                          children: [
 
-                          ProfileInfoRow(
-                            label: 'Name',
-                            value: "${snapshot.data![0]!} ${snapshot.data![1]!}",
-                          ),
-                          const SizedBox(height: 20),
-                          ProfileInfoRow(
-                            label: 'Email',
-                            value: snapshot.data![2]!,
-                          ),
-                          const SizedBox(height: 20),
-                          const ProfileInfoRow(
-                            label: 'Phone Number',
-                            value: '122334454',
-                          ),
-                          const SizedBox(height: 20),
+                            ProfileInfoRow(
+                              label: 'Name',
+                              value: "${snapshot.data![0]!} ${snapshot.data![1]!}",
+                            ),
+                            const SizedBox(height: 20),
+                            ProfileInfoRow(
+                              label: 'Email',
+                              value: snapshot.data![2]!,
+                            ),
+                            const SizedBox(height: 20),
+                            const ProfileInfoRow(
+                              label: 'Phone Number',
+                              value: '122334454',
+                            ),
+                            const SizedBox(height: 20),
 
 
-                        ],
-                      );
+                          ],
+                        );
+                      }
+
                     }
-
-                  }
-                ),
-              ),
-              Positioned(
-                bottom: 2.h,
-                right: 5.w,
-                child: Padding(
-                padding:  EdgeInsets.only(left: 50.w,top: 3.h),
-                child: ClipOval(
-                  child: FloatingActionButton(
-                    onPressed: () {
-                     
-                    },
-                    backgroundColor: const Color(0xFFB97F5A),
-                    child: const Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                    ),
                   ),
                 ),
-              ),)
-            ],
+                Positioned(
+                  bottom: 2.h,
+                  right: 5.w,
+                  child: Padding(
+                  padding:  EdgeInsets.only(left: 50.w,top: 3.h),
+                  child: ClipOval(
+                    child: FloatingActionButton(
+                      onPressed: () {
+
+                      },
+                      backgroundColor: const Color(0xFFB97F5A),
+                      child: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),)
+              ],
+            ),
           ),
         ),
       ),

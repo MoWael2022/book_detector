@@ -4,8 +4,10 @@ import 'package:khaltabita/Admin/domin/entites/book_data_entites.dart';
 import 'package:khaltabita/Admin/domin/entites/data_passes_delete.dart';
 import 'package:khaltabita/Admin/domin/entites/data_passes_update.dart';
 import 'package:khaltabita/Admin/domin/entites/datapasses.dart';
+import 'package:khaltabita/Admin/domin/entites/user_data_entites.dart';
 import 'package:khaltabita/Admin/domin/usecase/add_book_usecase.dart';
 import 'package:khaltabita/Admin/domin/usecase/delete_book_usecase.dart';
+import 'package:khaltabita/Admin/domin/usecase/get_all_user_usecase.dart';
 import 'package:khaltabita/Admin/presentation/controller/admin_state.dart';
 import 'package:khaltabita/core/service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,6 +39,7 @@ class AdminCubit extends Cubit<AdminState> {
   TextEditingController updateBookURL = TextEditingController();
 
   BookData? book;
+  List<UserDataEntities> users =[];
   String? id;
 
   void addBook() async {
@@ -127,5 +130,23 @@ class AdminCubit extends Cubit<AdminState> {
     } catch (e) {
       emit(ErrorDeleteState());
     }
+  }
+
+  Future<List<UserDataEntities>> viewAllUser() async {
+    emit(LoadingGetUserState());
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    final token = sharedPreferences.getString("TOKEN");
+
+    final result = instance<GetAllUserUseCase>();
+    final data = await result.call(token!);
+
+    data.fold((l) {
+      emit(ErrorGetUserState());
+    }, (r) {
+      users = r;
+      emit(LoadedGetUserState());
+    });
+
+    return users;
   }
 }

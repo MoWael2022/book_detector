@@ -25,4 +25,11 @@ class AppConstants {
   static const String photoId =
       "936961193812-p48mejrg4lqqjac1e62gmu5hiubp759i.apps.googleusercontent.com";
   static const String getAllBook = "$baseURL/book/viewtitle";
+
+  static String getAllCategoryImage(String categoryName) =>
+      "$baseURL/book/imageofcategorie/$categoryName";
+  static const String giminiKey = "AIzaSyCPzdrNdkBMfJge6gU4ohofxVZwCgwDvsA";
+
+  //user data
+  static const String getAllUser = "$baseURL/ManageUser/view";
 }

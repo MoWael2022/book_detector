@@ -4,6 +4,7 @@ class ReusableTextField extends StatefulWidget {
   final String hintText;
   bool obscureText;
   final TextEditingController textEditingController;
+  Function validator ;
 
 
    ReusableTextField({
@@ -11,6 +12,7 @@ class ReusableTextField extends StatefulWidget {
     required this.hintText,
     required this.textEditingController,
     required this.obscureText,
+     required this.validator
   });
 
   @override
@@ -26,6 +28,7 @@ class _ReusableTextFieldState extends State<ReusableTextField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       child: TextFormField(
+        validator: widget.validator(String),
         controller: widget.textEditingController,
         obscureText: widget.obscureText,
         decoration: InputDecoration(

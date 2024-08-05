@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:khaltabita/Admin/presentation/screens/all_book_page.dart';
+import 'package:khaltabita/Admin/presentation/screens/all_user_page.dart';
 import 'package:khaltabita/Admin/presentation/screens/manage_page.dart';
 import 'package:khaltabita/Admin/presentation/screens/update_book.dart';
+import 'package:khaltabita/user/presentation/screen/Gemini_chat.dart';
 import 'package:khaltabita/user/presentation/screen/Similarbook.dart';
+import 'package:khaltabita/user/presentation/screen/all_book.dart';
 import 'package:khaltabita/user/presentation/screen/book_description.dart';
 import 'package:khaltabita/user/presentation/screen/book_detection.dart';
 import 'package:khaltabita/user/presentation/screen/Categories.dart';
 import 'package:khaltabita/user/presentation/screen/chatbot.dart';
+import 'package:khaltabita/user/presentation/screen/first_splash.dart';
 import 'package:khaltabita/user/presentation/screen/home.dart';
 import 'package:khaltabita/user/presentation/screen/login.dart';
 import 'package:khaltabita/user/presentation/screen/setting.dart';
-import 'package:khaltabita/user/presentation/screen/splash.dart';
+import 'package:khaltabita/user/presentation/screen/second_splash.dart';
 
 import '../Admin/presentation/screens/manage_book.dart';
 import '../user/presentation/screen/books_category.dart';
@@ -19,7 +23,8 @@ import '../user/presentation/screen/register.dart';
 
 class Routers {
   //user
-  static const String splashScreen = "/";
+  static const String firstSplashScreen = "/";
+  static const String secondSplashScreen = "/secondSplash";
   static const String booksCategory = "/booksCategory";
   static const String categories = "/Categories";
   static const String home = "/Home";
@@ -32,12 +37,17 @@ class Routers {
   static const String bookDetection = "/bookDetection";
   static const String chatBot = "/chatBot";
   static const String similarBook = "/SimilarBook";
-  static const String allBook = "/allBook";
+  static const String allUserBook = "/allUserBook";
+  static const String geminiChat = "/gemini";
 
   //admin
   static const String managePage = "/Manage";
   static const String manageBook = "/ManageBook";
   static const String updateBook = "/updateBook";
+  static const String allAdminBook = "/allAdminBook";
+  static const String allAdminUser = "/allAdminUser";
+
+
 
 
 
@@ -46,8 +56,10 @@ class Routers {
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case Routers.splashScreen:
-        return MaterialPageRoute(builder: (context) => const SplashScreen());
+      case Routers.firstSplashScreen:
+        return MaterialPageRoute(builder: (context) => const FirstSplashScreen());
+      case Routers.secondSplashScreen:
+        return MaterialPageRoute(builder: (context) => const SecondSplashScreen());
       case Routers.categories:
         return MaterialPageRoute(builder: (context) => const CategoriesPage());
       case Routers.home:
@@ -73,10 +85,16 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => const ManageBook());
       case Routers.chatBot:
         return MaterialPageRoute(builder: (context) => const ChatBot());
+      case Routers.geminiChat:
+        return MaterialPageRoute(builder: (context) => const GeminiChat());
       case Routers.similarBook:
         return MaterialPageRoute(builder: (context) => const SimilarBook());
-      case Routers.allBook:
-        return MaterialPageRoute(builder: (context) => const AllBookPage());
+      case Routers.allAdminBook:
+        return MaterialPageRoute(builder: (context) => const AllBookAdminPage());
+      case Routers.allUserBook:
+        return MaterialPageRoute(builder: (context) => const AllBookUserPage());
+      case Routers.allAdminUser:
+        return MaterialPageRoute(builder: (context) => const AllUser());
       case Routers.updateBook:
         return MaterialPageRoute(builder: (context) => const UpdateBookPage());
       default:

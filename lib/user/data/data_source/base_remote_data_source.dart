@@ -1,5 +1,6 @@
 import 'package:khaltabita/user/data/model/book_model.dart';
 import 'package:khaltabita/user/data/model/categories_model.dart';
+import 'package:khaltabita/user/data/model/category_image_model.dart';
 import 'package:khaltabita/user/data/model/language_tanslation_output_model.dart';
 import 'package:khaltabita/user/data/model/language_translation_input_model.dart';
 import 'package:khaltabita/user/domin/entites/category_name_entites.dart';
@@ -27,4 +28,6 @@ abstract class BaseRemoteDataSource {
 
 
   Future<List<BookModel>> getAllBook();
+
+  Future<CategoryImageModel> getCategoriesImage(String nameCategory);
 }

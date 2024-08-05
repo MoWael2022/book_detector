@@ -51,12 +51,23 @@ dependencies:
   googleapis_auth: ^1.6.0
   image_picker: ^1.0.7
   flutter_svg: ^2.0.10+1
+  flutter_gemini: ^2.0.4
   http: ^1.2.0
   font_awesome_flutter: ^10.7.0
   shared_preferences: ^2.2.3
   awesome_dialog: ^3.2.1
   scroll_snap_list: ^0.9.1
+  dash_chat_2: ^0.0.19
   path: ^1.8.3
+  google_generative_ai: ^0.4.3
+  connectivity_plus: ^3.0.3
+  lottie: ^3.1.2
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/auth_image/Ellipse 7.png"
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +104,11 @@ flutter:
     - assets/images/Rectangle.png
     - assets/images/auth_image/Frame.png
     - assets/book test.png
+    - assets/lottie/book1.json
+    - assets/lottie/booksAnimation.json
+    - assets/images/images.png
+    - assets/lottie/loading.json
+    - assets/lottie/LoadingLottie.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

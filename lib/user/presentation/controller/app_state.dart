@@ -61,3 +61,21 @@ class TranslationStateLoaded extends AppState{
 }
 class TranslationStateLoading extends AppState{}
 class TranslationStateError extends AppState{}
+
+
+class BookLoadingState extends AppState{}
+
+class BookLoadedState extends AppState{}
+
+class BookErrorLoadedState extends AppState{}
+
+class ConnectivityLoading extends AppState {}
+
+class ConnectivitySuccess extends AppState {}
+
+class ConnectivityFailure extends AppState {
+  final String message;
+
+  ConnectivityFailure(this.message);
+}
+

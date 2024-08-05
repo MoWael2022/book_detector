@@ -15,11 +15,13 @@ import '../../../core/router.dart';
 import '../../../generated/l10n.dart';
 import '../controller/auth_cubit/auth_cubit.dart';
 import '../controller/auth_cubit/auth_state.dart';
+import 'dialogs_component.dart';
 
 class CustomPage extends StatefulWidget {
-  CustomPage({super.key, required this.page});
+  CustomPage({this.color = ColorManager.backgroundColor, super.key, required this.page});
 
   Widget page;
+  Color? color ;
 
   @override
   State<CustomPage> createState() => _CustomPageState();
@@ -44,10 +46,18 @@ class _CustomPageState extends State<CustomPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if(state is ConnectivityLoading){
+            Dialogs.loadingAwesomeDialog(context);
+          }else if (state is ConnectivityFailure){
+            Dialogs.errorAwesomeDialog(context, state.message.toString());
+          }else if(state is ConnectivitySuccess){
+            Dialogs.successAwesomeDialog(context);
+          }
+        },
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: ColorManager.backgroundColor,
+            backgroundColor: widget.color,
             appBar: AppBar(
               backgroundColor: ColorManager.appbarColor,
               shape: const RoundedRectangleBorder(

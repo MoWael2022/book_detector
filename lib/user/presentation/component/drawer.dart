@@ -31,6 +31,11 @@ class DrawerWidget extends StatelessWidget {
           page: Routers.categories,
         ),
         DrawerComponent(
+          pageName: "Books",
+          iconData: Icons.book,
+          page: Routers.allUserBook,
+        ),
+        DrawerComponent(
             pageName: S.of(context).profile,
             iconData: Icons.person_2_outlined,
             page: Routers.profile),
@@ -41,7 +46,7 @@ class DrawerWidget extends StatelessWidget {
         DrawerComponent(
             pageName: "Chat Bot",
             iconData: FontAwesomeIcons.robot,
-            page: Routers.chatBot),
+            page: Routers.geminiChat),
         DrawerComponent(
             pageName: S.of(context).setting,
             iconData: Icons.settings_outlined,

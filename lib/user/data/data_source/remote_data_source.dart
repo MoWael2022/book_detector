@@ -8,6 +8,7 @@ import 'package:khaltabita/core/global_resources/constants.dart';
 import 'package:khaltabita/user/data/data_source/base_remote_data_source.dart';
 import 'package:khaltabita/user/data/model/book_model.dart';
 import 'package:khaltabita/user/data/model/categories_model.dart';
+import 'package:khaltabita/user/data/model/category_image_model.dart';
 import 'package:khaltabita/user/data/model/language_tanslation_output_model.dart';
 import 'package:khaltabita/user/data/model/language_translation_input_model.dart';
 import 'package:khaltabita/user/data/model/output_data_model.dart';
@@ -180,13 +181,25 @@ class RemoteDataSource extends BaseRemoteDataSource {
 
       List<BookModel> result = [];
       for (var element in bookModel) {
-
-          result.add(element);
-          //print(category.categoryName);
-
+        result.add(element);
+        //print(category.categoryName);
       }
       return result;
     } else {
+      throw CategoryServerException(errorMessage: "something is wrong ");
+    }
+  }
+
+  @override
+  Future<CategoryImageModel> getCategoriesImage(
+      String nameCategory) async {
+    Dio dio = Dio();
+    final response =
+        await dio.get(AppConstants.getAllCategoryImage(nameCategory));
+    if(response.statusCode ==200){
+      final data = CategoryImageModel.fromJson(response.data[0]);
+      return data;
+    }else {
       throw CategoryServerException(errorMessage: "something is wrong ");
     }
   }

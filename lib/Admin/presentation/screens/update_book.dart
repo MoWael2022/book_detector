@@ -145,17 +145,18 @@ class _UpdateBookPageState extends State<UpdateBookPage> {
                 desc: "Book updated successfully",
                 btnOkOnPress: (){})
                 .show();
-          } else {
-            Navigator.of(context).pop();
-            AwesomeDialog(
-                context: context,
-                dialogType: DialogType.error,
-                animType: AnimType.topSlide,
-                title: "Error",
-                desc: "Book not Added, there is a problem",
-                btnCancelOnPress: () {})
-                .show();
           }
+          // else {
+          //   Navigator.of(context).pop();
+          //   AwesomeDialog(
+          //       context: context,
+          //       dialogType: DialogType.error,
+          //       animType: AnimType.topSlide,
+          //       title: "Error",
+          //       desc: "Book not Added, there is a problem",
+          //       btnCancelOnPress: () {})
+          //       .show();
+          // }
         },
         child: CustomPage(
             page: Padding(

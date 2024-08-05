@@ -9,6 +9,7 @@ import 'package:khaltabita/user/presentation/controller/app_cubit.dart';
 import 'package:khaltabita/core/global_resources/color_manager.dart';
 import 'package:khaltabita/user/presentation/component/custom_page.dart';
 import '../../../core/router.dart';
+import '../component/dialogs_component.dart';
 
 class BookDetection extends StatefulWidget {
   @override
@@ -39,7 +40,7 @@ class _BookDetectionState extends State<BookDetection> {
     }
   }
 
-  Future<void> _processImageFile() async {
+  Future<void> _processImageFile(context) async {
     if (_image == null) return;
 
     setState(() {
@@ -53,7 +54,7 @@ class _BookDetectionState extends State<BookDetection> {
       });
 
       Response response = await _dio.post(
-          'http://192.168.106.129:5000/process_image',
+          'http://192.168.235.129:5000/process_image',
           data: formData
       );
 
@@ -63,15 +64,15 @@ class _BookDetectionState extends State<BookDetection> {
         int similarBookCount = BlocProvider.of<AppCubit>(context).similarBooks.length;
 
         if (similarBookCount > 0) {
-          _showResultDialog(similarBookCount);
+          Dialogs.showResultDialog(similarBookCount,context);
         } else {
-          _showNoResultDialog();
+          Dialogs.showNoResultDialog(context);
         }
       } else {
-        _showErrorDialog('Failed to process image');
+        Dialogs.showErrorDialog('Failed to process image',context);
       }
     } catch (e) {
-      _showErrorDialog('Error: $e');
+      Dialogs.showErrorDialog('Error: $e',context);
     } finally {
       setState(() {
         loading = false;
@@ -79,44 +80,7 @@ class _BookDetectionState extends State<BookDetection> {
     }
   }
 
-  void _showResultDialog(int count) {
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.success,
-      animType: AnimType.bottomSlide,
-      title: 'Books Detected',
-      desc: 'We found $count similar books.',
-      btnOkOnPress: () {
-        Navigator.of(context).pushNamed(Routers.similarBook);
-      },
-    )..show();
-  }
 
-  void _showNoResultDialog() {
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.info,
-      animType: AnimType.bottomSlide,
-      title: 'No Books Detected',
-      desc: 'We couldn\'t find any similar books. Would you like to chat with our support?',
-      btnOkText: 'Yes',
-      btnOkOnPress: () {
-        Navigator.of(context).pushNamed(Routers.chatBot);
-      },
-      btnCancelOnPress: () {},
-    ).show();
-  }
-
-  void _showErrorDialog(String message) {
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.error,
-      animType: AnimType.bottomSlide,
-      title: 'Error',
-      desc: message,
-      btnOkOnPress: () {},
-    )..show();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +111,7 @@ class _BookDetectionState extends State<BookDetection> {
           ),
           ElevatedButton(
             onPressed: () async {
-              await _processImageFile();
+              await _processImageFile(context);
             },
             child: loading ? CircularProgressIndicator() : Text("Detect Book"),
           ),

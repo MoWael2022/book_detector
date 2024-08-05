@@ -1,12 +1,15 @@
 import 'package:get_it/get_it.dart';
+import 'package:khaltabita/Admin/domin/usecase/get_all_user_usecase.dart';
 import 'package:khaltabita/user/data/data_source/base_remote_data_source.dart';
 import 'package:khaltabita/user/data/data_source/remote_data_source.dart';
 import 'package:khaltabita/user/data/repository/user_repository.dart';
 import 'package:khaltabita/user/domin/repository/base_user_repository.dart';
 import 'package:khaltabita/user/domin/usecase/Language_Translation_usecase.dart';
+import 'package:khaltabita/user/domin/usecase/connectivity_usecase.dart';
 import 'package:khaltabita/user/domin/usecase/get_all_book_in_one_category_usecase.dart';
 import 'package:khaltabita/user/domin/usecase/get_all_book_usecase.dart';
 import 'package:khaltabita/user/domin/usecase/get_book_categories.dart';
+import 'package:khaltabita/user/domin/usecase/get_category_image.dart';
 import 'package:khaltabita/user/domin/usecase/get_specific_book_usecase.dart';
 import 'package:khaltabita/user/domin/usecase/register_usecase.dart';
 
@@ -38,6 +41,10 @@ class ServiceLocator {
         () => LanguageTranslationUseCase(instance()));
     instance.registerLazySingleton<GetAllBookUseCase>(
             () => GetAllBookUseCase(instance()));
+    instance.registerLazySingleton<ConnectivityUseCase>(
+            () => ConnectivityUseCase(instance()));
+    instance.registerLazySingleton<GetCategoryImageUseCase>(
+            () => GetCategoryImageUseCase(instance()));
 
 
     //repository
@@ -57,6 +64,8 @@ class ServiceLocator {
             () => DeleteBookUseCase(instance()));
     instance.registerLazySingleton<UpdateBookUseCase>(
             () => UpdateBookUseCase(instance()));
+    instance.registerLazySingleton<GetAllUserUseCase>(
+            () => GetAllUserUseCase(instance()));
 
     //repository
     instance.registerLazySingleton<BaseAdminRepository>(

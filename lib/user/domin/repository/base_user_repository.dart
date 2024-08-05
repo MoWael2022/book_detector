@@ -4,6 +4,7 @@ import 'package:khaltabita/user/data/model/user_model.dart';
 import 'package:khaltabita/user/domin/entites/User.dart';
 import 'package:khaltabita/user/domin/entites/categories.dart';
 import 'package:dartz/dartz.dart';
+import 'package:khaltabita/user/domin/entites/categoryImage.dart';
 import 'package:khaltabita/user/domin/entites/input_login_data.dart';
 import 'package:khaltabita/user/domin/entites/language_translation_output_entities.dart';
 import 'package:khaltabita/user/domin/entites/lnaguage_translation_entites.dart';
@@ -33,4 +34,9 @@ abstract class BaseRepository {
       LanguageTranslationInputModel languageTranslationInputModel);
 
   Future<Either<Failure, List<Book>>> getAllBookRepository();
+
+  Future<Either<Failure ,bool>> isConnectedRepo();
+
+  Future<Either<Failure ,CategoryImage>> getCategoryImage(String nameCategory);
+
 }

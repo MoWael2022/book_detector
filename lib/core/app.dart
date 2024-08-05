@@ -7,6 +7,7 @@ import 'package:khaltabita/generated/l10n.dart';
 import 'package:khaltabita/user/presentation/controller/app_cubit.dart';
 import 'package:khaltabita/user/presentation/controller/app_state.dart';
 import 'package:khaltabita/user/presentation/controller/auth_cubit/auth_cubit.dart';
+import 'package:khaltabita/user/presentation/screen/Gemini_chat.dart';
 import 'package:khaltabita/user/presentation/screen/book_description.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -52,6 +53,7 @@ class _MyAppState extends State<MyApp> {
           builder: (context ,state) {
             final appCubit = BlocProvider.of<AppCubit>(context);
             return MaterialApp(
+              home:const GeminiChat(),
               locale: Locale(appCubit.languageValue ?? "ar"),
               localizationsDelegates: const [
                 S.delegate,
@@ -60,8 +62,8 @@ class _MyAppState extends State<MyApp> {
                 GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: S.delegate.supportedLocales,
-              onGenerateRoute: RouteGenerator.getRoute,
-              initialRoute: Routers.splashScreen,
+              // onGenerateRoute: RouteGenerator.getRoute,
+              // initialRoute: Routers.geminiChat,
               debugShowCheckedModeBanner: false,
 
               //home: HomePage(),

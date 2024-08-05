@@ -1,11 +1,18 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khaltabita/core/global_resources/color_manager.dart';
 import 'package:khaltabita/core/global_resources/images_path.dart';
 import 'package:khaltabita/core/global_resources/string_manager.dart';
 import 'package:khaltabita/user/presentation/component/custom_page.dart';
+import 'package:khaltabita/user/presentation/component/dialogs_component.dart';
 import 'package:khaltabita/user/presentation/component/scroll_component.dart';
+import 'package:khaltabita/user/presentation/controller/app_cubit.dart';
+import 'package:khaltabita/user/presentation/controller/app_state.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:sizer/sizer.dart';
+
+import '../component/book_component.dart';
 
 class HamePage extends StatefulWidget {
   const HamePage({super.key});
@@ -15,6 +22,7 @@ class HamePage extends StatefulWidget {
 }
 
 class _HamePageState extends State<HamePage> {
+  late final result;
   List<Widget> dataScrollComponent = [
     ScrollComponent(
         textData: StringManager.translateDescription,
@@ -103,13 +111,98 @@ class _HamePageState extends State<HamePage> {
                   onReachEnd: () {},
                 ),
               ),
+              Padding(
+                padding:EdgeInsets.only(left: 6.w,right: 6.w,top: 2.h,bottom: .3.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Categories",style: TextStyle(fontSize: 6.w,fontWeight: FontWeight.bold)),
+                    TextButton(onPressed: (){},child:const Text("View all categories"),),
+                  ],
+                ),
+              ),
+              Padding(
+                padding:EdgeInsets.only(left: 4.w,right: 4.w),
+                child: ListView(
+                  physics:
+                  const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(
+                      height: 27.h,
+                      width: 45.w,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount:10,
+                        itemBuilder: (context, i) {
+                          return BookComponent(
+                            bookName: BlocProvider.of<AppCubit>(
+                                context)
+                                .categories[i]
+                                .categoryName,
+                            rate: BlocProvider.of<AppCubit>(
+                                context)
+                                .allBook[i]
+                                .averageRating,
+                            imagePath: BlocProvider.of<AppCubit>(
+                                context)
+                                .allBook[i]
+                                .urlImage,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding:EdgeInsets.only(left: 6.w,right: 6.w,top: 2.h,bottom: .3.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Books",style: TextStyle(fontSize: 6.w,fontWeight: FontWeight.bold)),
+                    TextButton(onPressed: (){},child:const Text("View all Books"),),
+                  ],
+                ),
+              ),
+              Padding(
+                padding:EdgeInsets.only(left: 4.w,right: 4.w),
+                child: ListView(
+                  physics:
+                  const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(
+                      height: 27.h,
+                      width: 45.w,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount:10,
+                        itemBuilder: (context, i) {
+                          return BookComponent(
+                            bookName: BlocProvider.of<AppCubit>(
+                                context)
+                                .allBook[i]
+                                .title,
+                            rate: BlocProvider.of<AppCubit>(
+                                context)
+                                .allBook[i]
+                                .averageRating,
+                            imagePath: BlocProvider.of<AppCubit>(
+                                context)
+                                .allBook[i]
+                                .urlImage,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
-          //       );
-          //     }
-          //   ),
-          // )
-          //Image.asset(ImagePathManager.robotIcon)
         ],
       ),
     );

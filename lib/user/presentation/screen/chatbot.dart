@@ -52,14 +52,14 @@ class _ChatBotState extends State<ChatBot> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat Assistance'),
+        title:const Text('Chat Assistance'),
         backgroundColor: Colors.brown[200],
       ),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.all(16.0),
+              padding:const EdgeInsets.all(16.0),
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 return ChatBubble(

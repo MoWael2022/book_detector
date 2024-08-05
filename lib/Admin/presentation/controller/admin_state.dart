@@ -21,3 +21,7 @@ class LoadedDeleteState extends AdminState {
 }
 
 class LoadingDeleteState extends AdminState {}
+
+class LoadingGetUserState extends AdminState {}
+class LoadedGetUserState extends AdminState {}
+class ErrorGetUserState extends AdminState {}

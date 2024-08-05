@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:khaltabita/core/global_resources/functions.dart';
 import 'package:khaltabita/user/domin/entites/categories.dart';
 import 'package:sizer/sizer.dart';
 
@@ -48,23 +49,21 @@ class CustomSearch extends SearchDelegate {
             child: BlocBuilder<AppCubit, AppState>(
               builder: (context, state) {
                 if (state is LoadingCategoryDataState) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return Functions.loadingLottie();
                 } else if (state is LoadedCategoryDataState) {
-                  List<Categories>? categories = state.data;
-                  List<Categories> filterproduct = state.data!
+                  //List<Categories>? categories = state.data;
+                  List<Categories> filterProduct = BlocProvider.of<AppCubit>(context).categories!
                       .where((element) => element.categoryName.startsWith(query))
                       .toList();
                   //print(state.data[0].categoryName);
                   return Wrap(
-                    children: filterproduct==null ? categories.map((category) {
+                    children: filterProduct==null ? BlocProvider.of<AppCubit>(context).categories.map((category) {
                       return CategoryComponent(
                         bookName: category.categoryName,
                         rate: "4.5",
                         imagePath: "assets/book test.png",
                       );
-                    }).toList() : filterproduct.map((category) {
+                    }).toList() : filterProduct.map((category) {
                       return CategoryComponent(
                         bookName: category.categoryName,
                         rate: "4.5",
@@ -75,9 +74,7 @@ class CustomSearch extends SearchDelegate {
                 } else if (state is ErrorCategoryDataState) {
                   return Text(state.failure.messageError);
                 } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return Functions.loadingLottie();
                 }
               },
             ),

@@ -9,6 +9,8 @@ import 'package:khaltabita/user/presentation/screen/books_category.dart';
 import 'package:khaltabita/user/presentation/screen/Categories.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../core/global_resources/functions.dart';
+
 class CategoryComponent extends StatelessWidget {
   CategoryComponent(
       {super.key,
@@ -37,7 +39,7 @@ class CategoryComponent extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             image:
-                DecorationImage(image: AssetImage(imagePath), fit: BoxFit.fill),
+                DecorationImage(image: NetworkImage(imagePath), fit: BoxFit.fill),
           ),
           child: Container(
             padding: EdgeInsets.only(bottom: 3.h),
@@ -88,7 +90,7 @@ class NetworkImageWithFallback extends StatelessWidget {
             return Image(image: snapshot.data!, fit: BoxFit.fill);
           }
         } else {
-          return Center(child: CircularProgressIndicator());
+          return Functions.loadingLottie();
         }
       },
     );

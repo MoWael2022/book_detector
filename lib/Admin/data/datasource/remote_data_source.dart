@@ -3,16 +3,18 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:khaltabita/Admin/data/datasource/base_remote_data_source.dart';
 import 'package:khaltabita/Admin/data/model/book_data_model.dart';
+import 'package:khaltabita/Admin/data/model/user_data_model.dart';
 import 'package:khaltabita/core/global_resources/constants.dart';
 
 import '../../../core/error/Authontication_exception.dart';
+import '../../../core/error/category_exceptions.dart';
 import '../../../core/error/error_model.dart';
 import '../../domin/entites/book_data_entites.dart';
 import '../../domin/entites/book_data_input.dart';
 
 class AdminRemoteDataSource extends BaseAdminRemoteDataSource {
   @override
-  Future<BookDataModel> addBook(BookDataInput dataBook,String token) async {
+  Future<BookDataModel> addBook(BookDataInput dataBook, String token) async {
     String path = AppConstants.addBook;
     Dio dio = Dio();
     dio.options.headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -37,13 +39,8 @@ class AdminRemoteDataSource extends BaseAdminRemoteDataSource {
         },
       ),
     );
-    print("done1");
-    print(response.data);
     if (response.statusCode == 200) {
-      print(response.data);
       final data = BookDataModel.fromJson(response.data);
-
-      print("done2");
       return data;
     } else {
       final jsonData = json.decode(response.data);
@@ -53,7 +50,8 @@ class AdminRemoteDataSource extends BaseAdminRemoteDataSource {
   }
 
   @override
-  Future<BookDataModel> updateBook(BookDataInput dataBook, String token,String id) async{
+  Future<BookDataModel> updateBook(
+      BookDataInput dataBook, String token, String id) async {
     String path = AppConstants.updateBook(id);
     Dio dio = Dio();
     dio.options.headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -94,7 +92,7 @@ class AdminRemoteDataSource extends BaseAdminRemoteDataSource {
   }
 
   @override
-  Future<BookDataModel> deleteBook(String token, String id) async{
+  Future<BookDataModel> deleteBook(String token, String id) async {
     String path = AppConstants.deleteBook(id);
     Dio dio = Dio();
     dio.options.headers["Content-Type"] = "application/x-www-form-urlencoded";
@@ -125,6 +123,37 @@ class AdminRemoteDataSource extends BaseAdminRemoteDataSource {
       final jsonData = json.decode(response.data);
       final data = ErrorModel.fromJson(jsonData, response.statusCode!);
       throw AuthenticationException(errorModel: data).errorModel.messageError;
+    }
+  }
+
+  @override
+  Future<List<UserDataModel>> getAllUser(String token) async {
+    Dio dio = Dio();
+    dio.options.headers["Content-Type"] = "application/x-www-form-urlencoded";
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    final response = await dio.get(
+      AppConstants.getAllUser,
+      options: Options(headers: headers),
+    );
+    if (response.statusCode == 200) {
+      List<dynamic> data = response.data;
+
+      List<UserDataModel> userData =
+          data.map((json) => UserDataModel.fromJson(json)).toList();
+
+      List<UserDataModel> result = [];
+      for (var element in userData) {
+        result.add(element);
+        //print(category.categoryName);
+      }
+      return result;
+    } else {
+      throw CategoryServerException(errorMessage: "something is wrong ");
     }
   }
 }

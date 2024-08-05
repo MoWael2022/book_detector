@@ -8,5 +8,10 @@ class ImagePathManager {
   static const String cameraIcon = "assets/images/Camera.png";
   static const String robotIcon = "assets/images/Group.png";
   static const String editIcon = "assets/images/auth_image/Frame.png";
+  static const String lottieBook = "assets/lottie/book1.json";
+  static const String lottieBooks = "assets/lottie/booksAnimation.json";
+  static const String geminiCover = "assets/images/images.png";
+  static const String loadingChat = "assets/lottie/loading.json";
+  static const String loadingLottie = "assets/lottie/LoadingLottie.json";
 
 }
